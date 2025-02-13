@@ -293,6 +293,7 @@ czertainly:newgenerationtrustcare
 S2EOF
 
 apt-get -qq  install -y czertainly-appliance-tools
+apt show czertainly-appliance-tools
 
 # We need SCP so we can't change shell. File .bashrc is used only in
 # interactive mode.
