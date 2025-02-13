@@ -1,4 +1,4 @@
-APPLIANCE_VERSION="2.13.0"
+APPLIANCE_VERSION="2.14.1"
 APPLIANCE_DEVELOP_VERSION=0
 CZERTAINLY_DEB_REPOSITORY="http://deb.czertainly.com/ bullseye main"
 CZERTAINLY_DEB_KEY="http://deb.czertainly.com/deb.czertainly.com.gpg"
