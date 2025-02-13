@@ -15,7 +15,7 @@ jobs:
           echo "deb [arch=amd64 signed-by=/usr/share/keyrings/oracle-virtualbox-2016.gpg] https://download.virtualbox.org/virtualbox/debian jammy contrib" | sudo tee -a /etc/apt/sources.list
           wget -O- https://download.virtualbox.org/virtualbox/debian/oracle_vbox_2016.asc | sudo gpg --dearmor --yes --output /usr/share/keyrings/oracle-virtualbox-2016.gpg
           sudo apt update
-          sudo apt install virtualbox-7.0 qemu-utils debootstrap dosfstools debian-keyring debian-archive-keyring
+          sudo apt install virtualbox-7.0 libpulse0 qemu-utils debootstrap dosfstools debian-keyring debian-archive-keyring
 
       - name: Build appliance
         run: sudo --preserve-env=GITHUB_REF_NAME bash ./build-appliance
