@@ -4,7 +4,7 @@ Builder of [CZERTAINLY Appliance](https://docs.czertainly.com/docs/certificate-k
 
 ## Prerequisites
 
-* a Debian based Linux system with **root access**  - tested on GNU Debian/Linux 11 (Bullseye). Root access is needed for `debbootstrap`, mounting qemu disk format, formatting disk image - most of the task is run as root.
+* a Debian based Linux system with **root access**  - tested on GNU Debian/Linux 11 (Bullseye). Root access is needed for `debootstrap`, mounting qemu disk format, formatting disk image - most of the task is run as root.
 * `git` for cloning this repo
 * VirtualBox 7.0 (6.0 version doesn't have `--delete-all` option otherwise script should run)
 * `qemu-img` and `qemu-nbd` from `qemu-utils`, complete Qemu installation isn't needed
@@ -12,7 +12,7 @@ Builder of [CZERTAINLY Appliance](https://docs.czertainly.com/docs/certificate-k
 * `dosfstools` for creating FAT partition with EFI stuff
 
 In short:
-`apt install git virtualbox qemu-utils debbootstrap dosfstools`
+`apt install git virtualbox qemu-utils debootstrap dosfstools`
 
 ## Building
 
