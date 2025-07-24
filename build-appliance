@@ -20,20 +20,6 @@ unmount_nbd () {
     fi
 }
 
-wait_for_partition () {
-    partition=$1
-
-    retry=10
-    while [ $retry -gt 0 ];
-    do
-        cat /proc/partitions | grep "$partition\$" && return 0
-        sleep 1s
-        retry=$((retry-1))
-    done
-    echo ">>>> partition $partition not found"
-    return 1
-}
-
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root (needed for qemu). Exiting."
   exit
@@ -96,7 +82,7 @@ modprobe nbd
 
 qemu-img create -f qcow2 $QCOW2_DISK_FILE $DISK_SIZE
 qemu-nbd -c $NBD_DEV $QCOW2_DISK_FILE
-wait_for_partition "$NBD_NAME"
+partprobe
 
 PARTED_COMMANDS="mklabel msdos \
 mkpart primary linux-swap $(( 1 ))MiB $(( 1 + SWAP_SIZE ))MiB \
@@ -104,8 +90,7 @@ mkpart primary ext4 $(( 1 + SWAP_SIZE ))MiB -0 \
 set 2 boot on"
 
 parted -s -a optimal -- $NBD_DEV $PARTED_COMMANDS
-wait_for_partition "${NBD_NAME}p1"
-cat /proc/partitions
+partprobe
 
 mkswap -L swap ${NBD_DEV}p1
 
