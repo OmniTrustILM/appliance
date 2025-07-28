@@ -53,7 +53,8 @@ fi
 
 SWAP_SIZE="1024"
 DISK_SIZE="50G"
-NBD_DEV="/dev/nbd0"
+NBD_NAME="nbd0"
+NBD_DEV="/dev/$NBD_NAME"
 TARGET="/mnt/target"
 SUITE="bookworm"
 HOST_NAME="czertainly"
@@ -77,24 +78,19 @@ echo ">>>> cleaning up posible remains from previous run"
 unmount_nbd
 
 echo ">>>> creating new filesystem"
-qemu-img create -f qcow2 $QCOW2_DISK_FILE $DISK_SIZE
-
 modprobe nbd
 
+qemu-img create -f qcow2 $QCOW2_DISK_FILE $DISK_SIZE
 qemu-nbd -c $NBD_DEV $QCOW2_DISK_FILE
+partprobe
 
 PARTED_COMMANDS="mklabel msdos \
 mkpart primary linux-swap $(( 1 ))MiB $(( 1 + SWAP_SIZE ))MiB \
 mkpart primary ext4 $(( 1 + SWAP_SIZE ))MiB -0 \
 set 2 boot on"
 
-echo $PARTED_COMMANDS
-
 parted -s -a optimal -- $NBD_DEV $PARTED_COMMANDS
-
-# sometimes it take some time to partions be reloaded
-sleep 1;
-[[ -e ${NBD_DEV}p1 ]] || sleep 15;
+partprobe
 
 mkswap -L swap ${NBD_DEV}p1
 
@@ -293,6 +289,7 @@ czertainly:newgenerationtrustcare
 S2EOF
 
 apt-get -qq  install -y czertainly-appliance-tools
+apt show czertainly-appliance-tools
 
 # We need SCP so we can't change shell. File .bashrc is used only in
 # interactive mode.
