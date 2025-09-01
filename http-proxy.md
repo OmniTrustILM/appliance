@@ -17,7 +17,7 @@ server=192.168.1.1           # Upstream DNS
 will do the trick.
 
 ### HTTP Proxy
-And finally Squid proxy server. I used squid-5.7-2+deb12u2 on Debian Bookworm. With following config `/etc/squid/conf.d/vboxnet0.conf`:
+And finally Squid proxy server. I used squid-5.7-2+deb12u2 on Debian Bookworm and tested with CZERTAINLY v 2.15.1. With following config `/etc/squid/conf.d/vboxnet0.conf`:
 
 ```conf
 # Allow access from your host-only network (e.g., 192.168.56.0/24)
