@@ -6,6 +6,7 @@ This guide is meant for developers who want to test the Appliance behind an HTTP
 
 VirtualBox with configured Host-only Network (File -> Tools -> Network manager). In this guide I use vboxnet0 with IP network 192.168.56.0/24
 
+### DNS
 DNS server running on same host as VirtualBox. DNSMASQ with config `/etc/dnsmasq.conf`:
 ```conf
 interface=vboxnet0           # VirtualBox host-only interface name
@@ -15,6 +16,7 @@ server=192.168.1.1           # Upstream DNS
 ```
 will do the trick.
 
+### HTTP Proxy
 And finally Squid proxy server. I used squid-5.7-2+deb12u2 on Debian Bookworm. With following config `/etc/squid/conf.d/vboxnet0.conf`:
 
 ```conf
