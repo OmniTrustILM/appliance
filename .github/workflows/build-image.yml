@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Add VirtualBox and other dependencies
         run: |
@@ -36,13 +36,13 @@ jobs:
         id: appliance_ovf
 
       - name: Save original OVF file
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: czertainly-appliance-original-ovf-file
           path: "tmp/${{ steps.appliance_ovf.outputs.APPLIANCE_ORIG_OVF }}"
 
       - name: Save builded CZERTAINLY Appliance OVA file
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: "${{ steps.appliance_name.outputs.APPLIANCE_FILENAME }}"
           path: "tmp/${{ steps.appliance_name.outputs.APPLIANCE_FILENAME }}"
