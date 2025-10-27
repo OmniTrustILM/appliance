@@ -36,13 +36,13 @@ jobs:
         id: appliance_ovf
 
       - name: Save original OVF file
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: czertainly-appliance-original-ovf-file
           path: "tmp/${{ steps.appliance_ovf.outputs.APPLIANCE_ORIG_OVF }}"
 
       - name: Save builded CZERTAINLY Appliance OVA file
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           #name: czertainly-appliance-ova-file
           name: "${{ steps.appliance_name.outputs.APPLIANCE_FILENAME }}"
