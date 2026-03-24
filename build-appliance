@@ -56,7 +56,7 @@ DISK_SIZE="50G"
 NBD_NAME="nbd0"
 NBD_DEV="/dev/$NBD_NAME"
 TARGET="/mnt/target"
-SUITE="bookworm"
+SUITE="trixie"
 HOST_NAME="ilm"
 FQDN="ilm.local"
 
@@ -172,14 +172,14 @@ cat "$TARGET/etc/profile.d/rke2.sh"
 chmod + "$TARGET/etc/profile.d/rke2.sh"
 
 cat - > "$TARGET/etc/apt/sources.list" <<EOF
-deb http://deb.debian.org/debian/ bookworm main non-free non-free-firmware contrib
-deb-src http://deb.debian.org/debian/ bookworm main non-free non-free-firmware contrib
+deb http://deb.debian.org/debian/ ${SUITE} main non-free non-free-firmware contrib
+deb-src http://deb.debian.org/debian/ ${SUITE} main non-free non-free-firmware contrib
 
-deb http://security.debian.org/debian-security bookworm-security main non-free non-free-firmware contrib
-deb-src http://security.debian.org/debian-security bookworm-security main non-free non-free-firmware contrib
+deb http://security.debian.org/debian-security ${SUITE}-security main non-free non-free-firmware contrib
+deb-src http://security.debian.org/debian-security ${SUITE}-security main non-free non-free-firmware contrib
 
-deb http://deb.debian.org/debian/ bookworm-updates main non-free non-free-firmware contrib
-deb-src http://deb.debian.org/debian/ bookworm-updates main non-free non-free-firmware contrib
+deb http://deb.debian.org/debian/ ${SUITE}-updates main non-free non-free-firmware contrib
+deb-src http://deb.debian.org/debian/ ${SUITE}-updates main non-free non-free-firmware contrib
 
 deb $CZERTAINLY_DEB_REPOSITORY
 EOF
