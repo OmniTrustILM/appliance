@@ -21,7 +21,7 @@ jobs:
           BUILD_VARS_LOCAL: ${{ vars.BUILD_VARS_LOCAL }}
         run: |
           if [ -n "$BUILD_VARS_LOCAL" ]; then
-            echo "$BUILD_VARS_LOCAL" > vars/local
+            printf '%s' "$BUILD_VARS_LOCAL" | tr -d '\r' > vars/local
             echo "BUILD_PARAMS=vars/local" >> $GITHUB_ENV
           fi
 
