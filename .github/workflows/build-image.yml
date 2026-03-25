@@ -53,10 +53,10 @@ jobs:
       - name: Save original OVF file
         uses: actions/upload-artifact@v5
         with:
-          name: czertainly-appliance-original-ovf-file
+          name: ilm-appliance-original-ovf-file
           path: "tmp/${{ steps.appliance_ovf.outputs.APPLIANCE_ORIG_OVF }}"
 
-      - name: Save builded CZERTAINLY Appliance OVA file
+      - name: Save builded ILM Appliance OVA file
         uses: actions/upload-artifact@v5
         with:
           name: "${{ steps.appliance_name.outputs.APPLIANCE_FILENAME }}"
