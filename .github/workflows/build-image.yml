@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # Store the content of your local vars/local file as a repository
       # variable named BUILD_VARS_LOCAL (Settings → Secrets and variables →
