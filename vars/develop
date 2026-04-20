@@ -1,4 +1,4 @@
-APPLIANCE_VERSION="2.16.0"
+APPLIANCE_VERSION="2.17.0"
 APPLIANCE_DEVELOP_VERSION=1
 CZERTAINLY_DEB_REPOSITORY="http://deb.czertainly.com/ develop main"
 CZERTAINLY_DEB_KEY="http://deb.czertainly.com/deb.czertainly.com.gpg"
