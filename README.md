@@ -23,7 +23,7 @@ sudo ./build-appliance
 ```
 Building requires root permisions as it creates QUEMU virtual disk device.
 
-Finished appliance is exported into file `tmp/ilm-appliance-$APPLIANCEVERSION."%g%m%d.%H%M%S.ova`. The process takes about 7 minutes on i7-6700 CPU @ 3.40GHz.
+Finished appliance is exported into file `tmp/ilm-appliance-$APPLIANCE_VERSION."%g%m%d.%H%M%S.ova`. The process takes about 7 minutes on i7-6700 CPU @ 3.40GHz.
 
 ## Usage of the Appliance
 
