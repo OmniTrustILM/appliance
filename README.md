@@ -17,8 +17,8 @@ In short:
 ## Building
 
 ```
-git clone https://github.com/3KeyCompany/CZERTAINLY-Appliance.git
-cd CZERTAINLY-Appliance
+git clone https://github.com/OmniTrustILM/appliance.git
+cd appliance
 sudo ./build-appliance
 ```
 Building requires root permisions as it creates QUEMU virtual disk device.
@@ -36,16 +36,16 @@ By default Appliance builder uses parameters from [`vars/develop`](./vars/develo
 sudo BUILD_PARAMS=vars/local bash ./build-appliance
 ```
 Playbook for ILM installation depends on the following Ansible roles:
-  - [ansible-role-ilm-branding](https://github.com/3KeyCompany/ansible-role-czertainly-branding)
-  - [ansible-role-http-proxy](https://github.com/3KeyCompany/ansible-role-http-proxy)
-  - [ansible-role-postgres](https://github.com/3KeyCompany/ansible-role-postgres)
-  - [ansible-role-helm](https://github.com/3KeyCompany/ansible-role-helm)
-  - [ansible-role-rke2](https://github.com/3KeyCompany/ansible-role-rke2)
-  - [ansible-role-ilm](https://github.com/3KeyCompany/ansible-role-czertainly)
+  - [ansible-role-ilm-branding](https://github.com/OmniTrustILM/ansible-role-ilm-branding)
+  - [ansible-role-http-proxy](https://github.com/OmniTrustILM/ansible-role-http-proxy)
+  - [ansible-role-postgres](https://github.com/OmniTrustILM/ansible-role-postgres)
+  - [ansible-role-helm](https://github.com/OmniTrustILM/ansible-role-helm)
+  - [ansible-role-rke2](https://github.com/OmniTrustILM/ansible-role-rke2)
+  - [ansible-role-ilm](https://github.com/OmniTrustILM/ansible-role-ilm)
 
-they are provided by package [`ilm-appliance-tools`](https://github.com/3KeyCompany/CZERTAINLY-Appliance-Tools), without any git tracking information. If you need to work on any of them, the best option is to clone a repository of the role you need to work on into the right place under `/etc/ilm-ansible/roles`.
+they are provided by package [`ilm-appliance-tools`](https://github.com/OmniTrustILM/appliance-tools), without any git tracking information. If you need to work on any of them, the best option is to clone a repository of the role you need to work on into the right place under `/etc/ilm-ansible/roles`.
 
-If you want to run Ansible playbooks by hand don't forget to set `ANSIBLE_CONFIG` to the [right](https://github.com/3KeyCompany/CZERTAINLY-Appliance-Tools/blob/master/usr/bin/czertainly-tui#L26) values. Typically you can run the installation command from the menu of Text UI.
+If you want to run Ansible playbooks by hand don't forget to set `ANSIBLE_CONFIG` to the [right](https://github.com/OmniTrustILM/appliance-tools/blob/master/usr/bin/czertainly-tui#L26) values. Typically you can run the installation command from the menu of Text UI.
 
 All Ansible roles have tags. You can run only parts you need to re-run to save your time. For example, when you want just reinstall czeratinly you can do:
 ```

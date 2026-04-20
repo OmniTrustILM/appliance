@@ -28,8 +28,8 @@ acl debian_packages dstdomain deb.debian.org security.debian.org
 # 3Key Resources - debian package + oci helm charts
 acl 3key_resources dstdomain deb.czertainly.com harbor.3key.company
 # Resources for helm package + helm diff plugin
-#   https://github.com/CZERTAINLY/ansible-role-helm/blob/develop/tasks/helm.yml#L28
-#   https://github.com/CZERTAINLY/ansible-role-helm/blob/develop/tasks/helm_diff.yml#L13
+#   https://github.com/OmniTrustILM/ansible-role-helm/blob/develop/tasks/helm.yml#L28
+#   https://github.com/OmniTrustILM/ansible-role-helm/blob/develop/tasks/helm_diff.yml#L13
 acl helm_resources dstdom_regex ^packages.buildkite.com$ ^github.com$ ^release-assets.githubusercontent.com$ cloudfront.net$
 # Resources for Docker needed by RKE2, cert-manager and CZERTAINLY
 acl docker_resources dstdomain index.docker.io auth.docker.io production.cloudflare.docker.com registry-1.docker.io
