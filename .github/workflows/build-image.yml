@@ -51,13 +51,13 @@ jobs:
         id: appliance_ovf
 
       - name: Save original OVF file
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: ilm-appliance-original-ovf-file
           path: "tmp/${{ steps.appliance_ovf.outputs.APPLIANCE_ORIG_OVF }}"
 
       - name: Save builded ILM Appliance OVA file
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: "${{ steps.appliance_name.outputs.APPLIANCE_FILENAME }}"
           path: "tmp/${{ steps.appliance_name.outputs.APPLIANCE_FILENAME }}"
