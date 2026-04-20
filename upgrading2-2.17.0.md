@@ -17,7 +17,8 @@ sed -i "s/czertainlyuser/ilmuser/g"  czertainlydb-<timestamp>.dump.sql
 
 ### 2. Install new VA 2.17.0 - it comes with new Debian base image.
 
-After OS Update and before ILM instalation copy file `/etc/czertainly-ansible/vars/keycloak.yml` from old Appliance to new apliance to location `/etc/ilm-ansible/vars/keycloak.yml`.
+After the OS update and before ILM installation, copy `/etc/czertainly-ansible/vars/keycloak.yml` from the old appliance.
+Copy it to `/etc/ilm-ansible/vars/keycloak.yml` on the new appliance.
 
 ### 3. Import your data to VA 2.17.0
 
