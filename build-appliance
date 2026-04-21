@@ -246,7 +246,7 @@ INSTALL="\$INSTALL dbus"
 # suport for correct certiticates validation
 INSTALL="\$INSTALL ssl-cert ca-certificates"
 
-# this should be part of ilm-appliance-tool dependencies
+# this should be part of ilm-appliance-tools dependencies
 INSTALL="\$INSTALL ansible python3-apt python3-kubernetes git jq dialog python3"
 
 # this is needed for branding
