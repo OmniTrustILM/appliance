@@ -56,16 +56,16 @@ DISK_SIZE="50G"
 NBD_NAME="nbd0"
 NBD_DEV="/dev/$NBD_NAME"
 TARGET="/mnt/target"
-SUITE="bookworm"
-HOST_NAME="czertainly"
-FQDN="czertainly.local"
+SUITE="trixie"
+HOST_NAME="ilm"
+FQDN="ilm.local"
 
 DEV_NAME=""
 if [ $APPLIANCE_DEVELOP_VERSION -eq 1 ]
 then
     DEV_NAME="-dev"
 fi
-NAME="czertainly-appliance-$APPLIANCE_VERSION$DEV_NAME".`date "+%g%m%d.%H%M%S"`
+NAME="ilm-appliance-$APPLIANCE_VERSION$DEV_NAME".`date "+%g%m%d.%H%M%S"`
 QCOW2_DISK_FILE="$WDIR/$NAME.qcow2"
 
 if [ ! -d "$WDIR" ]
@@ -172,14 +172,14 @@ cat "$TARGET/etc/profile.d/rke2.sh"
 chmod + "$TARGET/etc/profile.d/rke2.sh"
 
 cat - > "$TARGET/etc/apt/sources.list" <<EOF
-deb http://deb.debian.org/debian/ bookworm main non-free non-free-firmware contrib
-deb-src http://deb.debian.org/debian/ bookworm main non-free non-free-firmware contrib
+deb http://deb.debian.org/debian/ ${SUITE} main non-free non-free-firmware contrib
+deb-src http://deb.debian.org/debian/ ${SUITE} main non-free non-free-firmware contrib
 
-deb http://security.debian.org/debian-security bookworm-security main non-free non-free-firmware contrib
-deb-src http://security.debian.org/debian-security bookworm-security main non-free non-free-firmware contrib
+deb http://security.debian.org/debian-security ${SUITE}-security main non-free non-free-firmware contrib
+deb-src http://security.debian.org/debian-security ${SUITE}-security main non-free non-free-firmware contrib
 
-deb http://deb.debian.org/debian/ bookworm-updates main non-free non-free-firmware contrib
-deb-src http://deb.debian.org/debian/ bookworm-updates main non-free non-free-firmware contrib
+deb http://deb.debian.org/debian/ ${SUITE}-updates main non-free non-free-firmware contrib
+deb-src http://deb.debian.org/debian/ ${SUITE}-updates main non-free non-free-firmware contrib
 
 deb $CZERTAINLY_DEB_REPOSITORY
 EOF
@@ -188,7 +188,7 @@ wget -qq -O - "$CZERTAINLY_DEB_KEY" | gpg --dearmour > "$TARGET/etc/apt/trusted.
 echo "/etc/apt/sources.list:"
 cat "$TARGET/etc/apt/sources.list"
 
-echo "$APPLIANCE_VERSION$DEV_NAME" > "$TARGET/etc/czertainly_appliance_version"
+echo "$APPLIANCE_VERSION$DEV_NAME" > "$TARGET/etc/appliance_version"
 
 cat - > "$TARGET/tmp/init" <<EOF
 #!/bin/bash
@@ -233,7 +233,7 @@ echo "GRUB_DISABLE_OS_PROBER=true" >> /etc/default/grub
 sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT.*/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash net.ifnames=0 biosdevname=0 ipv6.disable=1" /' /etc/default/grub
 update-grub
 
-echo ">>>>>> install CZERTAINLY dependencies"
+echo ">>>>>> install ILM dependencies"
 # sudo is needed for TUI system operations
 INSTALL="sudo"
 
@@ -246,7 +246,7 @@ INSTALL="\$INSTALL dbus"
 # suport for correct certiticates validation
 INSTALL="\$INSTALL ssl-cert ca-certificates"
 
-# this should be part of czertainly-appliance-tool dependencies
+# this should be part of ilm-appliance-tools dependencies
 INSTALL="\$INSTALL ansible python3-apt python3-kubernetes git jq dialog python3"
 
 # this is needed for branding
@@ -281,30 +281,30 @@ chown root:root /etc/systemd/system/regenerate_ssh_host_keys.service
 # no reason to exec in chroot: systemctl daemon-reload
 systemctl enable regenerate_ssh_host_keys.service
 
-echo ">>>>>> add czertainly user"
-groupadd czertainly
-useradd czertainly -s /bin/bash -m -g czertainly -G sudo,audio,cdrom,video,adm,netdev,ssl-cert -c 'CZERTAINLY Operator'
+echo ">>>>>> add ilm user"
+groupadd ilm
+useradd ilm -s /bin/bash -m -g ilm -G sudo,audio,cdrom,video,adm,netdev,ssl-cert -c 'ILM Operator'
 chpasswd << S2EOF
-czertainly:newgenerationtrustcare
+ilm:newgenerationtrustcare
 S2EOF
 
-apt-get -qq  install -y czertainly-appliance-tools
-apt show czertainly-appliance-tools
+apt-get -qq  install -y ilm-appliance-tools
+apt show ilm-appliance-tools
 
 # We need SCP so we can't change shell. File .bashrc is used only in
 # interactive mode.
 echo "
 if [ -w ~/.kube/config ]
 then
-    kubectl config set-context --current --namespace czertainly
+    kubectl config set-context --current --namespace ilm
 fi
-. /usr/bin/czertainly-exec-tui
-" >> /home/czertainly/.bashrc
+. /usr/bin/ilm-exec-tui
+" >> /home/ilm/.bashrc
 
 echo "
 if [ -w ~/.kube/config ]
 then
-    kubectl config set-context --current --namespace czertainly
+    kubectl config set-context --current --namespace ilm
 fi
 " >> /root/.bashrc
 
@@ -314,8 +314,8 @@ export HOME=/root
 ansible-galaxy collection install kubernetes.core
 
 # Appliance branding
-export ANSIBLE_CONFIG=/etc/czertainly-ansible/ansible.cfg
-ansible-playbook /etc/czertainly-ansible/playbooks/czertainly-branding.yml
+export ANSIBLE_CONFIG=/etc/ilm-ansible/ansible.cfg
+ansible-playbook /etc/ilm-ansible/playbooks/ilm-branding.yml
 
 echo ">>>>>> clean apt cache"
 apt-get -qq -y remove --purge tasksel tasksel-data busybox
@@ -332,9 +332,9 @@ if [ $APPLIANCE_DEVELOP_VERSION -eq 1 ]
 then
     echo ">>>> adding developers SSH keys to the Virtual Appliance"
     test -d "$TARGET/root/.ssh" || mkdir "$TARGET/root/.ssh"
-    mkdir "$TARGET/home/czertainly/.ssh"
+    mkdir "$TARGET/home/ilm/.ssh"
     cp files/authorized_keys "$TARGET/root/.ssh"
-    cp files/authorized_keys "$TARGET/home/czertainly/.ssh"
+    cp files/authorized_keys "$TARGET/home/ilm/.ssh"
 fi
 
 sync

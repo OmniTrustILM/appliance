@@ -1,14 +1,29 @@
 ---
 on:
   push:
-    branches: '*'
+    branches: ['*']
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
+
+      # Store the content of your local vars/local file as a repository
+      # variable named BUILD_VARS_LOCAL (Settings → Secrets and variables →
+      # Actions → Variables tab → New repository variable).  When the variable
+      # is present the file is recreated here and BUILD_PARAMS is pointed at it
+      # so the build-appliance script picks it up.  When the variable is absent
+      # the normal GITHUB_REF_NAME-based selection is used instead.
+      - name: Create local vars file from variable
+        env:
+          BUILD_VARS_LOCAL: ${{ vars.BUILD_VARS_LOCAL }}
+        run: |
+          if [ -n "$BUILD_VARS_LOCAL" ]; then
+            printf '%s' "$BUILD_VARS_LOCAL" | tr -d '\r' > vars/local
+            echo "BUILD_PARAMS=vars/local" >> $GITHUB_ENV
+          fi
 
       - name: Add VirtualBox and other dependencies
         run: |
@@ -18,7 +33,7 @@ jobs:
           sudo apt install virtualbox-7.0 qemu-utils debootstrap dosfstools debian-keyring debian-archive-keyring
 
       - name: Build appliance
-        run: sudo --preserve-env=GITHUB_REF_NAME bash ./build-appliance
+        run: sudo --preserve-env=GITHUB_REF_NAME,BUILD_PARAMS bash ./build-appliance
         id: build
 
       # GITHUB_OUTPUT is in Github Action filled with temporary
@@ -36,13 +51,13 @@ jobs:
         id: appliance_ovf
 
       - name: Save original OVF file
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
-          name: czertainly-appliance-original-ovf-file
+          name: ilm-appliance-original-ovf-file
           path: "tmp/${{ steps.appliance_ovf.outputs.APPLIANCE_ORIG_OVF }}"
 
-      - name: Save builded CZERTAINLY Appliance OVA file
-        uses: actions/upload-artifact@v5
+      - name: Save builded ILM Appliance OVA file
+        uses: actions/upload-artifact@v7
         with:
           name: "${{ steps.appliance_name.outputs.APPLIANCE_FILENAME }}"
           path: "tmp/${{ steps.appliance_name.outputs.APPLIANCE_FILENAME }}"
