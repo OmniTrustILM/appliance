@@ -26,9 +26,9 @@ Follow [official documentation](https://docs.otilm.com/docs/certificate-key/inst
 
 ## Upgrading without data migration
 
-If you for some reason have to upgrade existing appliance, follow following steps. This was tested for upgrade from 2.16.2 to 2.17.0.
+If you need to upgrade an existing appliance in place, follow the steps below. This procedure was tested for upgrades from 2.16.2 to 2.17.0.
 
-Upgrade will change naming from CZERTAINLY Appliance to ILM Appliance. This include changing username and group from `czertainly` to `ilm`. And also renaming some files from `czertainly-` to `ilm-`. Hostname will remain `czertainly`.
+The upgrade changes the product name from CZERTAINLY Appliance to ILM Appliance. It also renames the user and group from `czertainly` to `ilm`, and renames files and directories with the `czertainly-` prefix to `ilm-`. The hostname remains `czertainly`.
 
 ### 1. Make backup of complete VA
 
