@@ -2,7 +2,7 @@
 
 Between versions 2.16.2 and 2.17.0 CZERTAINLY, s.r.o was bought by ISS and the product was renamed to ILM (Identity Lifecycle Management). The platform is now developed by [OmniTrust](https://omnitrust.com/).
 
-Release 2.17.0 of ILM Appliance is reflectin this change by renaming most of the files and users from `czertainly` to `ilm`.
+Release 2.17.0 of ILM Appliance is reflecting this change by renaming most of the files and users from `czertainly` to `ilm`.
 
 ## Recomended upgrade path
 
