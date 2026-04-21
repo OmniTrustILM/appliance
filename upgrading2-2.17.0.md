@@ -158,9 +158,3 @@ If you have previously used custom values files you should have file named `czer
 ### 9. Install RKE2 & ILM
 
 Install RKE2 & ILM executing `Install` from main menu of TUI. After installation, appliance will be running ILM 2.17.0 with your previous data preserved.
-
-### 10. Change branding
-
-## TODO
-
-Update documentation!!! https://docs.otilm.com/docs/certificate-key/installation-guide/deployment/deployment-appliance/overview
