@@ -1,0 +1,20 @@
+trap ctrl_c INT
+
+function ctrl_c() {
+    echo "** Trapped CTRL-C.
+
+    Restarting ILM TUI."
+    sleep 2
+}
+
+if [ "$ILM_TUI" != 'ACTIVE' ]
+then
+    while true;
+    do
+	if /usr/bin/ilm-tui
+	then
+            exit
+	fi
+	sleep 1;
+    done
+fi

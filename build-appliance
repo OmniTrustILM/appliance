@@ -333,6 +333,9 @@ then
     echo ">>>> adding developers SSH keys to the Virtual Appliance"
     test -d "$TARGET/root/.ssh" || mkdir "$TARGET/root/.ssh"
     mkdir "$TARGET/home/ilm/.ssh"
+    chmod 700 "$TARGET/root/.ssh" "$TARGET/home/ilm/.ssh"
+    chmod 600 "$TARGET/root/.ssh" "$TARGET/home/ilm/.ssh"
+    chown -Rilm:ilm "$TARGET/home/ilm/.ssh"
     cp files/authorized_keys "$TARGET/root/.ssh"
     cp files/authorized_keys "$TARGET/home/ilm/.ssh"
 fi
