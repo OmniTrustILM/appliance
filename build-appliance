@@ -332,12 +332,14 @@ if [ $APPLIANCE_DEVELOP_VERSION -eq 1 ]
 then
     echo ">>>> adding developers SSH keys to the Virtual Appliance"
     test -d "$TARGET/root/.ssh" || mkdir "$TARGET/root/.ssh"
-    mkdir "$TARGET/home/ilm/.ssh"
-    chmod 700 "$TARGET/root/.ssh" "$TARGET/home/ilm/.ssh"
-    chmod 600 "$TARGET/root/.ssh" "$TARGET/home/ilm/.ssh"
-    chown -R ilm:ilm "$TARGET/home/ilm/.ssh"
     cp files/authorized_keys "$TARGET/root/.ssh"
+    mkdir "$TARGET/home/ilm/.ssh"
     cp files/authorized_keys "$TARGET/home/ilm/.ssh"
+    # att this point I assue that user is 1000 and group is 1000 - we are not running inside chroot
+    chown -R 1000:1000 "$TARGET/home/ilm/.ssh"
+    chmod 700 "$TARGET/root/.ssh" "$TARGET/home/ilm/.ssh"
+    # the glob has to stay outside the quotes, otherwise chmod gets a literal '*'
+    chmod 600 "$TARGET"/root/.ssh/* "$TARGET"/home/ilm/.ssh/*
 fi
 
 sync
