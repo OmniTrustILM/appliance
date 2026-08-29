@@ -291,8 +291,10 @@ S2EOF
 apt-get -qq  install -y ilm-appliance-tools
 apt show ilm-appliance-tools
 
-# We need SCP so we can't change shell. File .bashrc is used only in
-# interactive mode.
+# We need SCP so we can't change the shell, hence .bashrc rather than a login
+# shell. That is safe for the ilm user because /etc/skel/.bashrc, which this
+# account got, returns early when the shell is not interactive - so neither
+# the TUI nor kubectl runs during an scp.
 echo "
 if [ -w ~/.kube/config ]
 then
@@ -301,12 +303,24 @@ fi
 . /usr/bin/ilm-exec-tui
 " >> /home/ilm/.bashrc
 
-echo "
-if [ -w ~/.kube/config ]
-then
-    kubectl config set-context --current --namespace ilm
-fi
-" >> /root/.bashrc
+# Root's .bashrc has no such early return, and bash sources .bashrc for
+# "ssh host command" as well - where /etc/profile.d has not run, so
+# /var/lib/rancher/rke2/bin is not on PATH. Unguarded, every non-interactive
+# ssh to root answered "/root/.bashrc: line 23: kubectl: command not found".
+# The heredoc is quoted so that the \$- reaches .bashrc rather than being
+# expanded while this script is generated, and the output is dropped because
+# it is the same line on every single login.
+cat >> /root/.bashrc <<'BASHRC'
+
+case \$- in
+    *i*)
+        if [ -w ~/.kube/config ] && command -v kubectl >/dev/null 2>&1
+        then
+            kubectl config set-context --current --namespace ilm >/dev/null
+        fi
+        ;;
+esac
+BASHRC
 
 # During installation is $HOME variable set to / so ansible-galaxy
 # installs into /
