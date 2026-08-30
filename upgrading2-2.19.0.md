@@ -32,7 +32,7 @@ Two things bite in this upgrade, and each one can lock you out if it is done in 
 
 > This section matter only if you were using pre-provisioned certificates. Feel free to skip it if you were using your own CA.
 
-Chart 2.18.0 replaced the built-in root certificate authority. Old appliances trust [`CN=CZERTAINLY Dummy Root CA`](https://github.com/OmniTrustILM/helm-charts/blob/2.17.0/dummy-certificates/certs/root-ca.cert.pem); 2.18.0 and later ship [`CN=Dummy Root CA`](https://github.com/OmniTrustILM/helm-charts/blob/2.19.0/dummy-certificates/certs/root-ca.cert.pem). The admin's certificate were with pre 2.19.0 apliance was issued by the old root, you can continue to use it as long as both the old and new root CAs are trusted.
+Chart 2.18.0 replaced the built-in root certificate authority. Old appliances trust [`CN=CZERTAINLY Dummy Root CA`](https://github.com/OmniTrustILM/helm-charts/blob/2.17.0/dummy-certificates/certs/root-ca.cert.pem); 2.18.0 and later ship [`CN=Dummy Root CA`](https://github.com/OmniTrustILM/helm-charts/blob/2.19.0/dummy-certificates/certs/root-ca.cert.pem). An administrator certificate issued by a pre-2.19.0 appliance uses the old root; you can continue to use it as long as both the old and new root CAs are trusted.
 
 To ensure continued trust, you need to combine the [old](https://github.com/OmniTrustILM/helm-charts/blob/2.17.0/dummy-certificates/certs/root-ca.cert.pem) and [new](https://github.com/OmniTrustILM/helm-charts/blob/2.19.0/dummy-certificates/certs/root-ca.cert.pem) root CAs into a single file. Configure both of them as [custom trusted certificate](https://docs.otilm.com/docs/certificate-key/installation-guide/deployment/deployment-appliance/TUI/main-menu#configure-custom-trusted-certificates). Place them for example into file `/home/ilm/trusted-list.pem`.
 
@@ -40,7 +40,7 @@ Keep that file in the home directory of the `ilm` user. It is not copied anywher
 
 > The configured file **replaces** the certificates shipped by the chart, it is not added to them. A file with the old root alone would repair the old certificates and break the new ones, which is why both roots have to be in that single file.
 
-You don't need to re-run Install, because in the later steps we are goin to upgrade the appliance using the new RKE2 and Traefik setup. The file is read by the ILM installation task, so configuring it any time before the installation in step 5 is fine.
+You don't need to re-run Install, because in the later steps we are goin to upgrade the appliance using the new RKE2 and Traefik setup. The file is read by the ILM installation task, so configuring it any time before the installation in step 6 is fine.
 
 ## 2. Migrate the Keycloak realm (needed by chart 2.18.0)
 
@@ -51,7 +51,7 @@ membership; the script is idempotent, so running it twice is safe.
 Fetch the script - it is public:
 
 ```bash
-curl -O https://raw.githubusercontent.com/OmniTrustILM/helm-charts/main/charts/keycloak-internal/scripts/update_realm_from_2.17.0_to_2.18.0.py
+curl -O https://raw.githubusercontent.com/OmniTrustILM/helm-charts/2.18.0/charts/keycloak-internal/scripts/update_realm_from_2.17.0_to_2.18.0.py
 ```
 Exec the script. *Default password used in appliance 2.17.0 and before was `admin`*. Change hostname if you are running on different hostname than `ilm.local`. In example we are using `--insecure` flag because the Kubernetes ingress certificate is self-signed.
 ```
@@ -160,7 +160,7 @@ Set `version: 2.19.0` in main menu, under [Configure ILM](https://docs.otilm.com
 
 Run [Install only ILM](https://docs.otilm.com/docs/certificate-key/installation-guide/deployment/deployment-appliance/TUI/advanced-menu#install-only-ilm) in advanced menu. RKE2 is already running at this point, so there is nothing to install besides ILM itself.
 
-> Don't start any real work between step 5 and step 6. This one is a Helm
+> Don't start any real work between step 6 and step 7. This one is a Helm
 > upgrade of a running release, and 2.19.0 moves RabbitMQ from the `czertainly`
 > virtual host to `/`, so anything still queued from the 2.18.0 installation
 > stays behind in the old virtual host and is never processed. Once 2.19.0 is
