@@ -47,7 +47,7 @@ they are provided by package [`ilm-appliance-tools`](https://github.com/OmniTrus
 
 If you want to run Ansible playbooks by hand don't forget to set `ANSIBLE_CONFIG` to the [right](https://github.com/OmniTrustILM/appliance-tools/blob/master/usr/bin/czertainly-tui#L26) values. Typically you can run the installation command from the menu of Text UI.
 
-All Ansible roles have tags. You can run only parts you need to re-run to save your time. For example, when you want just reinstall czeratinly you can do:
+All Ansible roles have tags. You can run only parts you need to re-run to save your time. For example, when you want just reinstall ilm you can do:
 ```
 kubectl delete ns ilm
 ANSIBLE_CONFIG=/etc/ilm-ansible/ansible.cfg ansible-playbook /etc/ilm-ansible/playbooks/ilm.yml --tags ilm --skip-tags ilm_sleep10
